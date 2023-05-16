@@ -1,0 +1,47 @@
+;buildInfoPackage: chisel3, version: 3.4.1, scalaVersion: 2.12.12, sbtVersion: 1.3.10
+circuit CRC : 
+  module CRC : 
+    input clock : Clock
+    input reset : UInt<1>
+    output io : {flip en : UInt<1>, flip in : UInt<1>, out : UInt<1>, debug : UInt<16>}
+    
+    reg lfsr : UInt<1>[16], clock @[CRC.scala 24:17]
+    node _T = xor(io.in, lfsr[15]) @[CRC.scala 27:30]
+    node bit = mux(io.en, _T, UInt<1>("h00")) @[CRC.scala 27:16]
+    lfsr[0] <= bit @[CRC.scala 30:11]
+    lfsr[1] <= lfsr[0] @[CRC.scala 37:19]
+    lfsr[2] <= lfsr[1] @[CRC.scala 37:19]
+    lfsr[3] <= lfsr[2] @[CRC.scala 37:19]
+    lfsr[4] <= lfsr[3] @[CRC.scala 37:19]
+    node _T_1 = xor(lfsr[4], bit) @[CRC.scala 35:30]
+    lfsr[5] <= _T_1 @[CRC.scala 35:19]
+    lfsr[6] <= lfsr[5] @[CRC.scala 37:19]
+    lfsr[7] <= lfsr[6] @[CRC.scala 37:19]
+    lfsr[8] <= lfsr[7] @[CRC.scala 37:19]
+    lfsr[9] <= lfsr[8] @[CRC.scala 37:19]
+    lfsr[10] <= lfsr[9] @[CRC.scala 37:19]
+    lfsr[11] <= lfsr[10] @[CRC.scala 37:19]
+    node _T_2 = xor(lfsr[11], bit) @[CRC.scala 35:30]
+    lfsr[12] <= _T_2 @[CRC.scala 35:19]
+    lfsr[13] <= lfsr[12] @[CRC.scala 37:19]
+    lfsr[14] <= lfsr[13] @[CRC.scala 37:19]
+    lfsr[15] <= lfsr[14] @[CRC.scala 37:19]
+    node _T_3 = mux(io.en, io.in, lfsr[15]) @[CRC.scala 41:16]
+    io.out <= _T_3 @[CRC.scala 41:10]
+    node lo_lo_lo = cat(lfsr[1], lfsr[0]) @[CRC.scala 42:20]
+    node lo_lo_hi = cat(lfsr[3], lfsr[2]) @[CRC.scala 42:20]
+    node lo_lo = cat(lo_lo_hi, lo_lo_lo) @[CRC.scala 42:20]
+    node lo_hi_lo = cat(lfsr[5], lfsr[4]) @[CRC.scala 42:20]
+    node lo_hi_hi = cat(lfsr[7], lfsr[6]) @[CRC.scala 42:20]
+    node lo_hi = cat(lo_hi_hi, lo_hi_lo) @[CRC.scala 42:20]
+    node lo = cat(lo_hi, lo_lo) @[CRC.scala 42:20]
+    node hi_lo_lo = cat(lfsr[9], lfsr[8]) @[CRC.scala 42:20]
+    node hi_lo_hi = cat(lfsr[11], lfsr[10]) @[CRC.scala 42:20]
+    node hi_lo = cat(hi_lo_hi, hi_lo_lo) @[CRC.scala 42:20]
+    node hi_hi_lo = cat(lfsr[13], lfsr[12]) @[CRC.scala 42:20]
+    node hi_hi_hi = cat(lfsr[15], lfsr[14]) @[CRC.scala 42:20]
+    node hi_hi = cat(hi_hi_hi, hi_hi_lo) @[CRC.scala 42:20]
+    node hi = cat(hi_hi, hi_lo) @[CRC.scala 42:20]
+    node _T_4 = cat(hi, lo) @[CRC.scala 42:20]
+    io.debug <= _T_4 @[CRC.scala 42:12]
+    
