@@ -1,3 +1,6 @@
+SYA03 - Special Topics in Computer Architecture
+====================================================
+
 This repository consists of the CRC hardware implementation under Chipyard platform.
 
 ./src          - contain source files and tests for CRC
