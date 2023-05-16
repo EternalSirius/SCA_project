@@ -1,4 +1,4 @@
-SYA03 - Special Topics in Computer Architecture
+SYA03 - Special Topics in Computer Architecture (m5262108 - AY2023)
 ====================================================
 
 This repository consists of the CRC hardware implementation under Chipyard platform.
